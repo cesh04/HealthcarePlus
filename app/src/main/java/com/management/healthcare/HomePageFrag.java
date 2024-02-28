@@ -137,87 +137,100 @@ public class HomePageFrag extends Fragment {
             }
         });
 
-//        DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference("Appointments");
-//        Query query = apptRef.orderByChild("dateTime").limitToFirst(1);
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists()){
-//                    DataSnapshot firstAppointmentSnapshot = snapshot.getChildren().iterator().next();
-//                    upcomingAppt = firstAppointmentSnapshot.getValue(Appointment.class);
-//
-//                    if(upcomingAppt != null){
-//                        upcomingApptDocAuthId = upcomingAppt.getDoctorAuthId();
-//                        upcomingApptDocName = upcomingAppt.getDoctorName();
-//                        upcomingDocName.setText(upcomingApptDocName);
-//                    }else{
-//                        Log.d("UpcomingApptDocAuthId", "Appt doc Id not found");
-//                    }
-//                    DatabaseReference docRef = FirebaseDatabase.getInstance().getReference("Doctors");
-//                    docRef.child(upcomingApptDocAuthId).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            if(snapshot.exists()){
-//                                upcomingApptDocSpecial = snapshot.child("specialization").getValue().toString();
-//                                upcomingApptDocAddr = snapshot.child("clinic_addr").getValue().toString();
-//                                upcomingDocSpecial.setText(upcomingApptDocSpecial);
-//                                upcomingDocAddr.setText(upcomingApptDocAddr);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                        }
-//                    });
-//                    Date apptDate = upcomingAppt.getDateTime();
-//                    Calendar calendar = Calendar.getInstance();
-//                    calendar.setTime(apptDate);
-//                    int year = calendar.get(Calendar.YEAR);
-//                    int month = calendar.get(Calendar.MONTH) + 1;
-//                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-//                    String monthStr = "MON";
-//                    if(month == 1)
-//                        monthStr = "JAN";
-//                    if(month == 2)
-//                        monthStr = "FEB";
-//                    if(month == 3)
-//                        monthStr = "MAR";
-//                    if(month == 4)
-//                        monthStr = "APR";
-//                    if(month == 5)
-//                        monthStr = "MAY";
-//                    if(month == 6)
-//                        monthStr = "JUN";
-//                    if(month == 7)
-//                        monthStr = "JUL";
-//                    if(month == 8)
-//                        monthStr = "AUG";
-//                    if(month == 9)
-//                        monthStr = "SEP";
-//                    if(month == 10)
-//                        monthStr = "OCT";
-//                    if(month == 11)
-//                        monthStr = "NOV";
-//                    if(month == 12)
-//                        monthStr = "DEC";
-//                    String date = dayOfMonth + " " + monthStr;
-//                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//                    int minute = calendar.get(Calendar.MINUTE);
-//                    int second = calendar.get(Calendar.SECOND);
-//                    String time = hour + ":" + minute;
-//                    String dateTime = date + " " + time;
-//                    upcomingDateTime.setText(dateTime);
-//                }else{
-//                    Log.d("Upcoming Appointment", "Appointment not found");
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("query", "query cancelled");
-//            }
-//        });
+        DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
+        Query query = apptRef.orderByChild("dateTime");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Query query = apptRef.orderByChild("userAuthId").equalTo(UID+"").limitToFirst(1);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+
+                            DataSnapshot firstAppointmentSnapshot = snapshot.getChildren().iterator().next();
+                            upcomingAppt = firstAppointmentSnapshot.getValue(Appointment.class);
+
+                            if(upcomingAppt != null){
+                                upcomingApptDocAuthId = upcomingAppt.getDoctorAuthId();
+                                upcomingApptDocName = upcomingAppt.getDoctorName();
+                                upcomingDocName.setText(upcomingApptDocName);
+                            }else{
+                                Log.d("UpcomingApptDocAuthId", "Appt doc Id not found");
+                            }
+                            DatabaseReference docRef = FirebaseDatabase.getInstance().getReference("Doctors");
+                            docRef.child(upcomingApptDocAuthId).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists()){
+                                        upcomingApptDocSpecial = snapshot.child("specialization").getValue().toString();
+                                        upcomingApptDocAddr = snapshot.child("clinic_addr").getValue().toString();
+                                        upcomingDocSpecial.setText(upcomingApptDocSpecial);
+                                        upcomingDocAddr.setText(upcomingApptDocAddr);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            Date apptDate = upcomingAppt.getDateTime();
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(apptDate);
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH) + 1;
+                            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                            String monthStr = "MON";
+                            if(month == 1)
+                                monthStr = "JAN";
+                            if(month == 2)
+                                monthStr = "FEB";
+                            if(month == 3)
+                                monthStr = "MAR";
+                            if(month == 4)
+                                monthStr = "APR";
+                            if(month == 5)
+                                monthStr = "MAY";
+                            if(month == 6)
+                                monthStr = "JUN";
+                            if(month == 7)
+                                monthStr = "JUL";
+                            if(month == 8)
+                                monthStr = "AUG";
+                            if(month == 9)
+                                monthStr = "SEP";
+                            if(month == 10)
+                                monthStr = "OCT";
+                            if(month == 11)
+                                monthStr = "NOV";
+                            if(month == 12)
+                                monthStr = "DEC";
+                            String date = dayOfMonth + " " + monthStr;
+                            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                            int minute = calendar.get(Calendar.MINUTE);
+                            int second = calendar.get(Calendar.SECOND);
+                            String time = hour + ":" + minute;
+                            String dateTime = date + " " + time;
+                            upcomingDateTime.setText(dateTime);
+                        }else{
+                            Log.d("Upcoming Appointment", "Appointment not found");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("query", "query cancelled");
+            }
+        });
 
 
 

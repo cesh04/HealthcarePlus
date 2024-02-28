@@ -63,6 +63,12 @@ public class CreateAppointment extends Fragment {
         enterDateTime = view.findViewById(R.id.enterDateTime);
         createAppointment = view.findViewById(R.id.createNewAppointment);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            userAuthId = user.getUid();
+            Log.d("userAuthId", userAuthId);
+        }
+
         enterDateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,52 +105,53 @@ public class CreateAppointment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDoc = (String) parent.getItemAtPosition(position);
                 String[] doc = selectedDoc.split(", ");
-                selectedDocName = doc[0];
+                selectedDocName = doc[0].trim();
                 selectedDocSpecial = doc[1];
+                if(selectedDocName!=null){
+                    DatabaseReference docRef2 = FirebaseDatabase.getInstance().getReference("Doctors");
+                    Query query = docRef2.orderByChild("full_name").equalTo(selectedDocName+"").limitToFirst(1);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                doctorAuthId = dataSnapshot.getKey();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.d("docAuthId", "cancelled");
+                        }
+                    });
+                }
             }
         });
 
         createAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null){
-                    userAuthId = user.getUid();
-                    Log.d("userAuthId", userAuthId);
-                }
-                Query query = docRef.equalTo(selectedDocName, "full_name").limitToFirst(1);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            DataSnapshot selectedDoctorSnapshot = snapshot.getChildren().iterator().next();
-                            doctorAuthId = selectedDoctorSnapshot.getKey();
-                        }
+                if(doctorAuthId!=null && selectedDocName!=null && userAuthId!=null && dateTimeStr!=null){
+                    Appointment appt = new Appointment(selectedDocName, doctorAuthId, userAuthId, dateTimeStr);
+                    Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorAuthId() + " " + appt.getUserAuthId() + " " + appt.getDateTime());
+                    String apptId = UUID.randomUUID().toString();
+                    if(appt.isPassed()){
+                        Toast.makeText(getActivity(), "Invalid date and time setting", Toast.LENGTH_LONG).show();
+                    } else {
+                        DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
+                        apptRef.child(apptId).setValue(appt)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(getActivity(), "Appointment scheduled!", Toast.LENGTH_LONG).show();
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.fragment_container, new HomePageFrag())
+                                            .commit();
+                                })
+                                .addOnFailureListener(aVoid -> {
+                                    Toast.makeText(getActivity(), "Appointment creation failed!", Toast.LENGTH_LONG).show();
+                                });
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d("docAuthId", "cancelled");
-                    }
-                });
-
-                Appointment appt = new Appointment(selectedDocName, doctorAuthId, userAuthId, dateTimeStr);
-                Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorAuthId() + " " + appt.getUserAuthId() + " " + appt.getDateTime());
-                String apptId = UUID.randomUUID().toString();
-                if(!appt.isPassed()){
-                    Toast.makeText(getActivity(), "Invalid date and time setting", Toast.LENGTH_LONG).show();
-                } else {
-                    DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
-                    apptRef.child(apptId).setValue(appt)
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(getActivity(), "Appointment scheduled!", Toast.LENGTH_LONG).show();
-                                getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.fragment_container, new HomePageFrag())
-                                        .commit();
-                            })
-                            .addOnFailureListener(aVoid -> {
-                                Toast.makeText(getActivity(), "Appointment creation failed!", Toast.LENGTH_LONG).show();
-                            });
+                }else{
+                    Toast.makeText(getActivity(), "Enter all details", Toast.LENGTH_LONG).show();
+                    Log.d("docAuthId", "insufficient input");
                 }
             }
         });

@@ -63,6 +63,6 @@ public class Appointment {
         Date currentDate = new Date();
 
         // Compare the appointment date with the current date
-        return this.dateTime.after(currentDate);
+        return this.dateTime.before(currentDate);
     }
 }

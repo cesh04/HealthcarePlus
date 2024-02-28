@@ -46,10 +46,12 @@ public class AppointmentList extends Fragment {
         recyclerView = view.findViewById(R.id.appointmentRecyclerView);
         FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
         if(current_user!=null){
-            UID = current_user.getUid();
+            UID = current_user.getUid().trim();
+        }else{
+            Log.d("TAG", "onCreateView: UID Not found");
         }
         DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        Query query = apptRef.orderByChild("userAuthId").equalTo(UID);
+        Query query = apptRef.orderByChild("userAuthId").equalTo(UID+"");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
