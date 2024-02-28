@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "443731216290",
+    "project_id": "healthcareplus-521f6",
+    "storage_bucket": "healthcareplus-521f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443731216290:android:d1928fed38ec74acc1d4fb",
+        "android_client_info": {
+          "package_name": "com.management.healthcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATmiy04iW3IdKL6ebVqLtzREe175rXFCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
