@@ -5,22 +5,32 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Appointment {
+
+    private String userName;
     private String doctorName;
-    private String doctorAuthId;
+    private String doctorSpecialization;
     private String userAuthId;
-    private Date dateTime; // Combined date and time
+    private String docAuthId;
+    private String venue;
+    private long dateTime;
 
     public Appointment() {
     }
 
-    public Appointment(String doctorName, String doctorAuthId, String userAuthId, String dateTimeStr) {
+    public Appointment(String doctorName, String userName, String doctorSpecialization, String dateTimeStr, String venue, String userAuthId, String docAuthId) {
         this.doctorName = doctorName;
-        this.doctorAuthId = doctorAuthId;
+        this.userName = userName;
+        this.doctorSpecialization = doctorSpecialization;
+        this.venue = venue;
         this.userAuthId = userAuthId;
+        this.docAuthId = docAuthId;
+        Date dateObj;
 
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            this.dateTime = dateFormat.parse(dateTimeStr);
+            dateObj = dateFormat.parse(dateTimeStr);
+            assert dateObj != null;
+            this.dateTime = dateObj.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -34,12 +44,36 @@ public class Appointment {
         this.doctorName = doctorName;
     }
 
-    public String getDoctorAuthId() {
-        return doctorAuthId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setDoctorAuthId(String doctorAuthId) {
-        this.doctorAuthId = doctorAuthId;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public long getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getDoctorSpecialization() {
+        return doctorSpecialization;
+    }
+
+    public void setDoctorSpecialization(String doctorSpecialization) {
+        this.doctorSpecialization = doctorSpecialization;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
     public String getUserAuthId() {
@@ -50,19 +84,20 @@ public class Appointment {
         this.userAuthId = userAuthId;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public String getDocAuthId() {
+        return docAuthId;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setDocAuthId(String docAuthId) {
+        this.docAuthId = docAuthId;
     }
 
     public boolean isPassed() {
         // Get the current date and time
         Date currentDate = new Date();
+        long currentDateTime = currentDate.getTime();
 
         // Compare the appointment date with the current date
-        return this.dateTime.before(currentDate);
+        return this.dateTime <= currentDateTime;
     }
 }

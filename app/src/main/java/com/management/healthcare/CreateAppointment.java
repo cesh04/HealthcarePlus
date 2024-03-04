@@ -47,9 +47,11 @@ public class CreateAppointment extends Fragment {
     String docName;
     String dateTimeStr;
     String userAuthId;
+    String userName;
     String doctorAuthId;
     String selectedDocName;
     String selectedDocSpecial;
+    String selectedDocClinicAddr;
 
     public CreateAppointment() {
 
@@ -69,6 +71,25 @@ public class CreateAppointment extends Fragment {
             Log.d("userAuthId", userAuthId);
         }
 
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userAuthId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    userName = snapshot.child("full_name").getValue(String.class);
+                }else{
+                    Log.d("userName in CreateAppointment", "userName not accessed");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("userName in CreateAppointment", "userName query cancelled");
+            }
+        });
+
+
+
         enterDateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +106,8 @@ public class CreateAppointment extends Fragment {
                     String selectedDocName = dataSnapshot.child("full_name").getValue(String.class);
                     //String doctorAuthId = dataSnapshot.getKey();
                     String docSpecial = dataSnapshot.child("specialization").getValue(String.class);
-                    String doc = selectedDocName + ", " + docSpecial;
+                    String docClinicAddr = dataSnapshot.child("clinic_addr").getValue(String.class);
+                    String doc = selectedDocName + ", " + docSpecial + ", " + docClinicAddr;
                     if(selectedDocName != null){
                         docNames.add(doc);
                     }
@@ -107,6 +129,7 @@ public class CreateAppointment extends Fragment {
                 String[] doc = selectedDoc.split(", ");
                 selectedDocName = doc[0].trim();
                 selectedDocSpecial = doc[1];
+                selectedDocClinicAddr = doc[2];
                 if(selectedDocName!=null){
                     DatabaseReference docRef2 = FirebaseDatabase.getInstance().getReference("Doctors");
                     Query query = docRef2.orderByChild("full_name").equalTo(selectedDocName+"").limitToFirst(1);
@@ -130,9 +153,9 @@ public class CreateAppointment extends Fragment {
         createAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(doctorAuthId!=null && selectedDocName!=null && userAuthId!=null && dateTimeStr!=null){
-                    Appointment appt = new Appointment(selectedDocName, doctorAuthId, userAuthId, dateTimeStr);
-                    Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorAuthId() + " " + appt.getUserAuthId() + " " + appt.getDateTime());
+                if(doctorAuthId!=null && selectedDocName!=null && userAuthId!=null && dateTimeStr!=null && userName!=null){
+                    Appointment appt = new Appointment(selectedDocName, userName, selectedDocSpecial, dateTimeStr, selectedDocClinicAddr,userAuthId, doctorAuthId);
+                    Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorSpecialization() + " " + appt.getVenue() + " " + appt.getDateTime());
                     String apptId = UUID.randomUUID().toString();
                     if(appt.isPassed()){
                         Toast.makeText(getActivity(), "Invalid date and time setting", Toast.LENGTH_LONG).show();
