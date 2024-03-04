@@ -10,11 +10,13 @@
 
     <string-array name="doc_specialization">
         <item>Select Specialization</item>
-        <item>Orthopedics</item>
-        <item>Gynecology</item>
-        <item>Dermatology</item>
-        <item>Radiology</item>
-        <item>Family Medicine</item>
+        <item>Physician</item>
+        <item>Dentist</item>
+        <item>Dermatologist</item>
+        <item>Gynecologist</item>
+        <item>Psychiatrist</item>
+        <item>Orthopedist</item>
+        <item>ENT Specialist</item>
         <item>ENT</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->

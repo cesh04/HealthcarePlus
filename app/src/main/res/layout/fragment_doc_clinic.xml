@@ -6,33 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".Doctor_Clinic_Page">
 
+
     <EditText
         android:id="@+id/docClinicPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="Clinic Contact No."
         android:inputType="phone"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <EditText
         android:id="@+id/docClinicAddr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="396dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="Clinic Address"
         android:inputType="textPostalAddress"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/docClinicPhone" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,9 +46,10 @@
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/docClinicAddr">
+        app:layout_constraintTop_toBottomOf="@+id/docClinicAddr"
+        app:layout_constraintVertical_bias="0.679">
 
         <Button
             android:id="@+id/docClinicPrevBtn"
@@ -63,5 +70,18 @@
 
             android:text="Register" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/clinicRegistrationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:textSize="34sp"
+        android:fontFamily="@font/kaushan_script"
+        android:text="Clinic Registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
