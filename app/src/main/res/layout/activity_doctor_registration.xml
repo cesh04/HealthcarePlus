@@ -8,15 +8,17 @@
 
     <EditText
         android:id="@+id/DocRegName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="36dp"
         android:layout_marginTop="64dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="Full Name"
         android:inputType="text"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,10 +35,9 @@
         android:id="@+id/radioBtnGroup"
         android:layout_width="249dp"
         android:layout_height="37dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="288dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -102,15 +103,17 @@
 
     <EditText
         android:id="@+id/docRegEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="196dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="172dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,25 +121,25 @@
         android:id="@+id/docRegSpecial"
         android:layout_width="197dp"
         android:layout_height="23dp"
-        android:layout_marginTop="264dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginTop="2dp"
         android:hint="Specialization"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/DocRegPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="128dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="116dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="@string/phone_no"
         android:inputType="phone"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,9 +147,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="224dp"
+        android:fontFamily="@font/amaranth"
+        android:textSize="15sp"
         android:text="Specialization:"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,9 +159,11 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="296dp"
+        android:fontFamily="@font/amaranth"
         android:text="Gender:"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -8,70 +8,100 @@
 
     <EditText
         android:id="@+id/DocName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="64dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="148dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="Full Name"
         android:inputType="text"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/DocPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="128dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="@string/phone_no"
         android:inputType="phone"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/DocName" />
+
 
     <EditText
         android:id="@+id/DocEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="196dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/DocPhone" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/amaranth"
+        android:text="Specialization:"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DocEmail" />
 
 
     <Spinner
         android:id="@+id/docSpecial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="264dp"
         android:hint="Specialization"
         app:layout_constraintBottom_toTopOf="@+id/radioBtnGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/genderTextView"
+        android:layout_width="47dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="404dp"
+        android:fontFamily="@font/amaranth"
+        android:text="Gender"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/radioBtnGroup"
+        app:layout_constraintHorizontal_bias="0.611"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
     <RadioGroup
         android:id="@+id/radioBtnGroup"
         android:layout_width="249dp"
         android:layout_height="37dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="400dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -79,61 +109,85 @@
             android:id="@+id/radioMaleBtn"
             android:layout_width="78dp"
             android:layout_height="28dp"
+            android:fontFamily="@font/abhaya_libre"
             android:text="Male" />
 
         <RadioButton
             android:id="@+id/radioFemaleBtn"
             android:layout_width="80dp"
             android:layout_height="28dp"
+            android:fontFamily="@font/abhaya_libre"
             android:text="Female" />
 
         <RadioButton
             android:id="@+id/radioOtherBtn"
             android:layout_width="80dp"
             android:layout_height="28dp"
+            android:fontFamily="@font/abhaya_libre"
             android:text="Other" />
 
     </RadioGroup>
 
-
     <EditText
         android:id="@+id/docPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="364dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/radioBtnGroup" />
+
 
     <EditText
         android:id="@+id/docConfirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="428dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:fontFamily="serif"
         android:hint="Confirm Password"
         android:inputType="textPassword"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/docPassword" />
 
     <Button
         android:id="@+id/docInfoNextBtn"
+        style="@style/mainInterfaceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="92dp"
+        android:fontFamily="@font/averia_libre_light"
         android:text="Next"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/doctorRegistrationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/kaushan_script"
+        android:text="Doctor Registration"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
