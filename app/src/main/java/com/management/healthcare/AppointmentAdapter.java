@@ -17,12 +17,15 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder>{
     private final List<Appointment> appointments;
-    public AppointmentAdapter(List<Appointment> appointments){
+    private boolean isDoc;
+    public AppointmentAdapter(List<Appointment> appointments, boolean isDoc){
         this.appointments = appointments;
+        this.isDoc = isDoc;
     }
 
 
@@ -36,9 +39,16 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapter.AppointmentViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
-        holder.doctorNameTextView.setText(appointment.getDoctorName());
+        if(isDoc){
+            holder.nameTextView.setText(appointment.getUserName());
+        }else{
+            holder.nameTextView.setText(appointment.getDoctorName());
+        }
+        holder.doctorAddressTextView.setText(appointment.getVenue());
+        holder.doctorSpecialTextView.setText(appointment.getDoctorSpecialization());
         Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(appointment.getDateTime());
+        Date apptDate = new Date(appointment.getDateTime());
+                    calendar.setTime(apptDate);
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                     String monthStr = "MON";
@@ -68,30 +78,13 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                         monthStr = "DEC";
                     String date = dayOfMonth + " " + monthStr;
                     int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    String hourStr = String.format("%02d", hour);
                     int minute = calendar.get(Calendar.MINUTE);
-                    String time = hour + ":" + minute;
+                    String minuteStr = String.format("%02d", minute);
+                    String time = hourStr + ":" + minuteStr;
                     String dateTime = date + " " + time;
                     holder.dateTimeTextView.setText(dateTime);
-        DatabaseReference docRef = FirebaseDatabase.getInstance().getReference("Doctor");
-        Query query = docRef.equalTo(appointment.getDoctorName(), "full_name").limitToFirst(1);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    DataSnapshot dataSnapshot = snapshot.getChildren().iterator().next();
-                    Doctor doctor = dataSnapshot.getValue(Doctor.class);
-                    String docSpecial = doctor.getSpecialization();
-                    String docAddr = doctor.getClinic_addr();
-                    holder.doctorSpecialTextView.setText(docSpecial);
-                    holder.doctorAddressTextView.setText(docAddr);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("recyclerview fetching", "fetching error");
-            }
-        });
 
     }
 
@@ -101,14 +94,14 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     }
 
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
-        TextView doctorNameTextView;
+        TextView nameTextView;
         TextView dateTimeTextView;
         TextView doctorAddressTextView;
         TextView doctorSpecialTextView;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
-            doctorNameTextView = itemView.findViewById(R.id.doctorName);
+            nameTextView = itemView.findViewById(R.id.name);
             dateTimeTextView = itemView.findViewById(R.id.apptTime);
             doctorSpecialTextView = itemView.findViewById(R.id.docSpecialization);
             doctorAddressTextView = itemView.findViewById(R.id.docAddress);

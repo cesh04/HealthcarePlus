@@ -4,8 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +24,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AppointmentList extends Fragment {
     private String UID;
     private RecyclerView recyclerView;
+    private List<Appointment> combinedAppointments;
+    private AppointmentListViewModel combinedApptList;
+    private boolean isDoc;
 
 
     public AppointmentList() {
@@ -43,36 +51,52 @@ public class AppointmentList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment_list, container, false);
+
+        combinedAppointments = new ArrayList<>();
+        combinedApptList = new ViewModelProvider(getActivity()).get(AppointmentListViewModel.class);
         recyclerView = view.findViewById(R.id.appointmentRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        recyclerView.setLayoutManager(layoutManager);
         FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
         if(current_user!=null){
             UID = current_user.getUid().trim();
         }else{
             Log.d("TAG", "onCreateView: UID Not found");
         }
-        DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        Query query = apptRef.orderByChild("userAuthId").equalTo(UID+"");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Appointment> appointments = new ArrayList<>();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Appointment appointment = dataSnapshot.getValue(Appointment.class);
-                    if(appointment!=null){
-                        appointments.add(appointment);
-                    }
-                }
 
-                AppointmentAdapter adapter = new AppointmentAdapter(appointments);
-                recyclerView.setAdapter(adapter);
+        Bundle amIDoc = getArguments();
+        if(amIDoc != null){
+            String isDoctor = amIDoc.getString("doc");
+            String isUser = amIDoc.getString("user");
+            if(isDoctor != null){
+                isDoc = true;
+            }else if(isUser != null){
+                isDoc = false;
+            }else{
+                Log.d("User or Doc", "neither!");
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("userAppt", "user appointment query cancelled");
-            }
+        combinedApptList.getAppointments().observe(getViewLifecycleOwner(), combinedAppointments -> {
+            AppointmentAdapter adapter = new AppointmentAdapter(combinedAppointments, isDoc);
+            recyclerView.setAdapter(adapter);
         });
 
         return view;
+    }
+    public void sortAppointmentsByTimestamp(List<Appointment> appointments) {
+        // Create a custom comparator to compare appointments by timestamp
+        Comparator<Appointment> comparator = new Comparator<Appointment>() {
+            @Override
+            public int compare(Appointment appointment1, Appointment appointment2) {
+                long timestamp1 = appointment1.getDateTime();
+                long timestamp2 = appointment2.getDateTime();
+                // Compare timestamps
+                return Long.compare(timestamp1, timestamp2);
+            }
+        };
+
+        // Sort the list of appointments using the custom comparator
+        appointments.sort(comparator);
     }
 }

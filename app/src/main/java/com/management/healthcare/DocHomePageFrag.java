@@ -32,14 +32,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class HomePageFrag extends Fragment {
-    private String userName;
+public class DocHomePageFrag extends Fragment {
+    private String doctorName;
     private String UID;
-    private TextView upcomingDocName;
+    private TextView upcomingUserName;
     private TextView upcomingDocAddr;
     private TextView upcomingDateTime;
     private TextView upcomingDocSpecial;
-    private String upcomingApptDocName;
+    private String upcomingApptUserName;
     private String upcomingApptDocSpecial;
     private String upcomingApptDocAddr;
     private Appointment upcomingAppt;
@@ -49,18 +49,18 @@ public class HomePageFrag extends Fragment {
     private List<Appointment> combinedAppointments;
     private AppointmentListViewModel combinedApptList;
 
-    public HomePageFrag(){
+    public DocHomePageFrag(){
 
     }
     public void onSaveInstanceState(Bundle outState){
         String greetingName = Greeting.getText().toString().trim();
-        String docName = upcomingDocName.getText().toString().trim();
+        String userName = upcomingUserName.getText().toString().trim();
         String docAddr = upcomingDocAddr.getText().toString().trim();
         String dateTime = upcomingDateTime.getText().toString().trim();
         String docSpecial = upcomingDocSpecial.getText().toString().trim();
 
         outState.putString("greetingName", greetingName);
-        outState.putString("docName", docName);
+        outState.putString("userName", userName);
         outState.putString("docAddr", docAddr);
         outState.putString("dateTime", dateTime);
         outState.putString("docSpecial", docSpecial);
@@ -71,7 +71,7 @@ public class HomePageFrag extends Fragment {
 
         if(savedInstanceState!=null){
             Greeting.setText(savedInstanceState.getString("greetingName"));
-            upcomingDocName.setText(savedInstanceState.getString("docName"));
+            upcomingUserName.setText(savedInstanceState.getString("userName"));
             upcomingDocAddr.setText(savedInstanceState.getString("docAddr"));
             upcomingDateTime.setText(savedInstanceState.getString("dateTime"));
             upcomingDocSpecial.setText(savedInstanceState.getString("docSpecial "));
@@ -82,8 +82,8 @@ public class HomePageFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_page, container, false);
-        upcomingDocName = view.findViewById(R.id.doctorName);
+        View view = inflater.inflate(R.layout.fragment_doc_home_page, container, false);
+        upcomingUserName = view.findViewById(R.id.userName);
         upcomingDateTime = view.findViewById(R.id.apptTime);
         upcomingDocAddr = view.findViewById(R.id.docAddress);
         upcomingDocSpecial = view.findViewById(R.id.docSpecialization);
@@ -108,20 +108,20 @@ public class HomePageFrag extends Fragment {
             Log.d("User", "User is null");
         }
 
-        Bundle userNameBundle = getArguments();
-        if(userNameBundle != null){
-            userName = userNameBundle.getString("userName");
-            if(userName!=null){
-                if(userName!=null){
+        Bundle docNameBundle = getArguments();
+        if(docNameBundle != null){
+            doctorName = docNameBundle.getString("doctorName");
+            if(doctorName!=null){
+                if(doctorName!=null){
                     String greeting = null;
                     if(hour>= 12 && hour < 16){
-                        greeting = "Good Afternoon " + userName;
+                        greeting = "Good Afternoon " + doctorName;
                     } else if(hour >= 16 && hour < 21){
-                        greeting = "Good Evening " + userName;
+                        greeting = "Good Evening " + doctorName;
                     } else if(hour >= 21 && hour < 24){
-                        greeting = "Good Evening "+ userName;
+                        greeting = "Good Evening "+ doctorName;
                     } else {
-                        greeting = "Good Morning "+ userName;
+                        greeting = "Good Morning "+ doctorName;
                     }
                     Greeting.setText(greeting);
                 }else{
@@ -129,23 +129,11 @@ public class HomePageFrag extends Fragment {
                 }
             }
         }else{
-            Log.d("userNameBundle", "userNameBundle not found yet");
+            Log.d("docNameBundle", "docNameBundle not found yet");
         }
 
 
 
-
-
-        Button createNewAppointment = view.findViewById(R.id.createNewAppointment);
-        createNewAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new CreateAppointment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
         Button signOutButton = view.findViewById(R.id.signOutButton);
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
@@ -164,9 +152,9 @@ public class HomePageFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 AppointmentList apptListFrag = new AppointmentList();
-                Bundle iAmUser = new Bundle();
-                iAmUser.putString("user", "user");
-                apptListFrag.setArguments(iAmUser);
+                Bundle iAmDoc = new Bundle();
+                iAmDoc.putString("doc", "doc");
+                apptListFrag.setArguments(iAmDoc);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, apptListFrag)
                         .addToBackStack(null)
@@ -175,7 +163,7 @@ public class HomePageFrag extends Fragment {
         });
 
         DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        Query query = apptRef.orderByChild("userAuthId").equalTo(UID+"");
+        Query query = apptRef.orderByChild("docAuthId").equalTo(UID+"");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -196,11 +184,11 @@ public class HomePageFrag extends Fragment {
                     sortAppointmentsByTimestamp(appointments);
                     if(!appointments.isEmpty()){
                         upcomingAppt = appointments.get(0);
-                        upcomingApptDocName = upcomingAppt.getDoctorName();
+                        upcomingApptUserName = upcomingAppt.getUserName();
                         upcomingApptDocAddr = upcomingAppt.getVenue();
                         upcomingApptDocSpecial = upcomingAppt.getDoctorSpecialization();
 
-                        upcomingDocName.setText(upcomingApptDocName);
+                        upcomingUserName.setText(upcomingApptUserName);
                         upcomingDocSpecial.setText(upcomingApptDocSpecial);
                         upcomingDocAddr.setText(upcomingApptDocAddr);
                         long apptDateTime = upcomingAppt.getDateTime();
@@ -244,7 +232,7 @@ public class HomePageFrag extends Fragment {
                         String time = hourStr + ":" + minuteStr;
                         String dateTime = date + " " + time;
                         upcomingDateTime.setText(dateTime);
-                        Log.d("upcoming appt", upcomingApptDocName);
+                        Log.d("upcoming appt", upcomingApptUserName);
                     }else{
                         Log.d("upcoming appt", "appointment list is empty outside");
                     }
