@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="618dp"
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
