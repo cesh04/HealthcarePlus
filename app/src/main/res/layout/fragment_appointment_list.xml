@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/accent_blue"
     tools:context=".AppointmentList">
 
     <TextView
@@ -12,7 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:backgroundTint="@color/accent_blue"
+        android:fontFamily="@font/amaranth"
         android:text="Your Appointments"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +25,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/appointmentRecyclerView"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="618dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
