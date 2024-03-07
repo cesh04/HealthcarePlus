@@ -24,7 +24,26 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="opacityPercent" value="60" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="C:\Users\Anshul\Desktop\TYBCA\Android Application Project\HealthCare+-logos (1)\HealthCare+-logos_white.png" />
+                                                <entry key="opacityPercent" value="80" />
+                                                <entry key="paddingPercent" value="5" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\AppData\Local\Temp\ic_android_black_24dp.xml" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -54,6 +73,17 @@
                                       </entry>
                                     </map>
                                   </option>
+<<<<<<< HEAD
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\Anshul\Desktop\TYBCA\Android Application Project\HealthCare+-logos (1)\HealthCare+-logos_white.png" />
+                                      <entry key="outputName" value="displaylogo" />
+                                      <entry key="theme" value="CUSTOM" />
+                                    </map>
+                                  </option>
+=======
+>>>>>>> origin/main
                                 </PersistentState>
                               </value>
                             </entry>
@@ -67,7 +97,11 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\AppData\Local\Temp\ic_android_black_24dp.xml" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\AppData\Local\Temp\ic_android_black_24dp.xml" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -79,8 +113,13 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\Desktop\TYBCA\Android Application Project\HealthCare+-logos (1)\logo.jpeg" />
+                                                <entry key="scalingPercent" value="83" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\Downloads\mainlogo.png" />
                                                 <entry key="scalingPercent" value="66" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -130,7 +169,11 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\AppData\Local\Temp\ic_android_black_24dp.xml" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\AppData\Local\Temp\ic_android_black_24dp.xml" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -174,7 +217,11 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\AppData\Local\Temp\ic_android_black_24dp.xml" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\AppData\Local\Temp\ic_android_black_24dp.xml" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -238,7 +285,11 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+<<<<<<< HEAD
+                                                <entry key="imagePath" value="C:\Users\Anshul\AppData\Local\Temp\ic_android_black_24dp.xml" />
+=======
                                                 <entry key="imagePath" value="C:\Users\heres\AppData\Local\Temp\ic_android_black_24dp.xml" />
+>>>>>>> origin/main
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -284,6 +335,14 @@
                             </entry>
                           </map>
                         </option>
+<<<<<<< HEAD
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
+                          </map>
+                        </option>
+=======
+>>>>>>> origin/main
                       </PersistentState>
                     </value>
                   </entry>
