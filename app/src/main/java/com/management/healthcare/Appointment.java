@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class Appointment {
 
+    private String apptID;
+
     private String userName;
     private String doctorName;
     private String doctorSpecialization;
@@ -13,17 +15,22 @@ public class Appointment {
     private String docAuthId;
     private String venue;
     private long dateTime;
+    private String userPhone;
+    private String doctorClinicPhone;
 
     public Appointment() {
     }
 
-    public Appointment(String doctorName, String userName, String doctorSpecialization, String dateTimeStr, String venue, String userAuthId, String docAuthId) {
+    public Appointment(String apptID, String doctorName, String doctorClinicPhone,  String userName, String userPhone, String doctorSpecialization, String dateTimeStr, String venue, String userAuthId, String docAuthId) {
+        this.apptID = apptID;
         this.doctorName = doctorName;
         this.userName = userName;
         this.doctorSpecialization = doctorSpecialization;
         this.venue = venue;
         this.userAuthId = userAuthId;
         this.docAuthId = docAuthId;
+        this.userPhone = userPhone;
+        this.doctorClinicPhone = doctorClinicPhone;
         Date dateObj;
 
         try {
@@ -34,6 +41,14 @@ public class Appointment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getApptID() {
+        return apptID;
+    }
+
+    public void setApptID(String apptID) {
+        this.apptID = apptID;
     }
 
     public String getDoctorName() {
@@ -90,6 +105,22 @@ public class Appointment {
 
     public void setDocAuthId(String docAuthId) {
         this.docAuthId = docAuthId;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getDoctorClinicPhone() {
+        return doctorClinicPhone;
+    }
+
+    public void setDoctorClinicPhone(String doctorClinicPhone) {
+        this.doctorClinicPhone = doctorClinicPhone;
     }
 
     public boolean isPassed() {

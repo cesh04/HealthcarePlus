@@ -1,14 +1,23 @@
 package com.management.healthcare;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,9 +50,43 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         Appointment appointment = appointments.get(position);
         if(isDoc){
             holder.nameTextView.setText(appointment.getUserName());
+            holder.callBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callDoctor = new Intent(Intent.ACTION_DIAL);
+                    callDoctor.setData(Uri.parse("tel:" + appointment.getUserPhone()));
+                    holder.itemView.getContext().startActivity(callDoctor);
+                }
+            });
         }else{
             holder.nameTextView.setText(appointment.getDoctorName());
+            holder.callBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callDoctor = new Intent(Intent.ACTION_DIAL);
+                    callDoctor.setData(Uri.parse("tel:" + appointment.getDoctorClinicPhone()));
+                    holder.itemView.getContext().startActivity(callDoctor);
+                }
+            });
         }
+        holder.cancelAppt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference("Appointments").child(appointment.getApptID()+"");
+                apptRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(holder.itemView.getContext(), "Record deleted!",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(holder.itemView.getContext(), "Record deletion unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
         holder.doctorAddressTextView.setText(appointment.getVenue());
         holder.doctorSpecialTextView.setText(appointment.getDoctorSpecialization());
         Calendar calendar = Calendar.getInstance();
@@ -98,9 +141,13 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         TextView dateTimeTextView;
         TextView doctorAddressTextView;
         TextView doctorSpecialTextView;
+        Button callBtn;
+        TextView cancelAppt;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
+            cancelAppt = itemView.findViewById(R.id.cancelAppt);
+            callBtn = itemView.findViewById(R.id.callBtn);
             nameTextView = itemView.findViewById(R.id.name);
             dateTimeTextView = itemView.findViewById(R.id.apptTime);
             doctorSpecialTextView = itemView.findViewById(R.id.docSpecialization);

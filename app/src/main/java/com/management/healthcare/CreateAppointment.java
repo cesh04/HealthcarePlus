@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +30,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CreateAppointment extends Fragment {
 
@@ -44,14 +45,20 @@ public class CreateAppointment extends Fragment {
     private AutoCompleteTextView enterDocName;
     private ArrayAdapter<String> adapter;
     private Button createAppointment;
+    private AppointmentListViewModel combinedApptList;
+    private List<Appointment> combinedAppointments;
     String docName;
     String dateTimeStr;
     String userAuthId;
     String userName;
+    String userPhone;
     String doctorAuthId;
     String selectedDocName;
     String selectedDocSpecial;
+    String selectedDocClinicPhone;
     String selectedDocClinicAddr;
+    private boolean validated;
+
 
     public CreateAppointment() {
 
@@ -64,6 +71,8 @@ public class CreateAppointment extends Fragment {
         enterDocName = view.findViewById(R.id.enterDocName);
         enterDateTime = view.findViewById(R.id.enterDateTime);
         createAppointment = view.findViewById(R.id.createNewAppointment);
+        combinedAppointments = new ArrayList<>();
+        combinedApptList = new ViewModelProvider(getActivity()).get(AppointmentListViewModel.class);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
@@ -77,6 +86,7 @@ public class CreateAppointment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     userName = snapshot.child("full_name").getValue(String.class);
+                    userPhone = snapshot.child("mobile").getValue(String.class);
                 }else{
                     Log.d("userName in CreateAppointment", "userName not accessed");
                 }
@@ -106,8 +116,9 @@ public class CreateAppointment extends Fragment {
                     String selectedDocName = dataSnapshot.child("full_name").getValue(String.class);
                     //String doctorAuthId = dataSnapshot.getKey();
                     String docSpecial = dataSnapshot.child("specialization").getValue(String.class);
+                    String docClinicPhone = dataSnapshot.child("clinic_phone").getValue(String.class);
                     String docClinicAddr = dataSnapshot.child("clinic_addr").getValue(String.class);
-                    String doc = selectedDocName + ", " + docSpecial + ", " + docClinicAddr;
+                    String doc = selectedDocName + ", " + docSpecial + ", " + docClinicPhone + ", " + docClinicAddr;
                     if(selectedDocName != null){
                         docNames.add(doc);
                     }
@@ -129,7 +140,13 @@ public class CreateAppointment extends Fragment {
                 String[] doc = selectedDoc.split(", ");
                 selectedDocName = doc[0].trim();
                 selectedDocSpecial = doc[1];
-                selectedDocClinicAddr = doc[2];
+                selectedDocClinicPhone = doc[2];
+                selectedDocClinicAddr = "";
+                for(int i=3;i<doc.length-1;i++){
+                    selectedDocClinicAddr = selectedDocClinicAddr.concat(doc[i] + ", ");
+                }
+                selectedDocClinicAddr = selectedDocClinicAddr.concat(doc[doc.length-1]);
+                //selectedDocClinicAddr = doc[2] + doc[3];
                 if(selectedDocName!=null){
                     DatabaseReference docRef2 = FirebaseDatabase.getInstance().getReference("Doctors");
                     Query query = docRef2.orderByChild("full_name").equalTo(selectedDocName+"").limitToFirst(1);
@@ -153,10 +170,10 @@ public class CreateAppointment extends Fragment {
         createAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(doctorAuthId!=null && selectedDocName!=null && userAuthId!=null && dateTimeStr!=null && userName!=null){
-                    Appointment appt = new Appointment(selectedDocName, userName, selectedDocSpecial, dateTimeStr, selectedDocClinicAddr,userAuthId, doctorAuthId);
-                    Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorSpecialization() + " " + appt.getVenue() + " " + appt.getDateTime());
+                if(validateAll()){
                     String apptId = UUID.randomUUID().toString();
+                    Appointment appt = new Appointment(apptId, selectedDocName, selectedDocClinicPhone,  userName, userPhone, selectedDocSpecial, dateTimeStr, selectedDocClinicAddr,userAuthId, doctorAuthId);
+                    Log.d("Appointment", appt.getDoctorName() + " " + appt.getDoctorSpecialization() + " " + appt.getVenue() + " " + appt.getDateTime());
                     if(appt.isPassed()){
                         Toast.makeText(getActivity(), "Invalid date and time setting", Toast.LENGTH_LONG).show();
                     } else {
@@ -180,6 +197,27 @@ public class CreateAppointment extends Fragment {
         });
 
         return view;
+    }
+
+    private boolean validateAll(){
+        validated = true;
+        if(doctorAuthId==null && selectedDocName==null && userAuthId==null && dateTimeStr==null && userName==null){
+            return false;
+        }
+        long timestamp;
+        try {
+            Date dateObj;
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            dateObj = dateFormat.parse(dateTimeStr);
+            assert dateObj != null;
+            timestamp = dateObj.getTime();
+            // code for checking timestamp value of existing appointments with selectedDocName;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d("validated value", validated + " ");
+        return validated;
     }
 
     private void showDateTimeDialog(){

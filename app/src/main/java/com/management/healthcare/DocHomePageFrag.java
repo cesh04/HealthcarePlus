@@ -1,9 +1,11 @@
 package com.management.healthcare;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -48,6 +50,7 @@ public class DocHomePageFrag extends Fragment {
     private List<Appointment> passedAppointments;
     private List<Appointment> combinedAppointments;
     private AppointmentListViewModel combinedApptList;
+    private ConstraintLayout upcomingApptBox;
 
     public DocHomePageFrag(){
 
@@ -83,6 +86,8 @@ public class DocHomePageFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doc_home_page, container, false);
+        Button callBtn = view.findViewById(R.id.callBtn);
+        upcomingApptBox = view.findViewById(R.id.upcomingAppt);
         upcomingUserName = view.findViewById(R.id.userName);
         upcomingDateTime = view.findViewById(R.id.apptTime);
         upcomingDocAddr = view.findViewById(R.id.docAddress);
@@ -133,6 +138,20 @@ public class DocHomePageFrag extends Fragment {
         }
 
 
+
+        upcomingApptBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppointmentList apptListFrag = new AppointmentList();
+                Bundle iAmUser = new Bundle();
+                iAmUser.putString("user", "user");
+                apptListFrag.setArguments(iAmUser);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, apptListFrag)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         Button signOutButton = view.findViewById(R.id.signOutButton);
 
@@ -232,6 +251,14 @@ public class DocHomePageFrag extends Fragment {
                         String time = hourStr + ":" + minuteStr;
                         String dateTime = date + " " + time;
                         upcomingDateTime.setText(dateTime);
+                        callBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent callUser = new Intent(Intent.ACTION_DIAL);
+                                callUser.setData(Uri.parse("tel:" + upcomingAppt.getUserPhone()));
+                                view.getContext().startActivity(callUser);
+                            }
+                        });
                         Log.d("upcoming appt", upcomingApptUserName);
                     }else{
                         Log.d("upcoming appt", "appointment list is empty outside");

@@ -22,8 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class HomePage extends AppCompatActivity {
-    private AppointmentListViewModel upcomingApptList;
-    private AppointmentListViewModel passedApptList;
+    private AppointmentListViewModel combinedApptList;
     private String UID;
 
     private String userName;
@@ -33,8 +32,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        upcomingApptList = new ViewModelProvider(this).get(AppointmentListViewModel.class);
-        passedApptList = new ViewModelProvider(this).get(AppointmentListViewModel.class);
+        combinedApptList = new ViewModelProvider(this).get(AppointmentListViewModel.class);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
