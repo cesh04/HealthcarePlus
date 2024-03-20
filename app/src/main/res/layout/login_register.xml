@@ -9,23 +9,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/upcomingAppt"
-        android:layout_width="333dp"
-        android:layout_height="523dp"
-        android:layout_marginTop="156dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
         android:background="@drawable/loginbackground"
         android:elevation="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteY="156dp">
 
         <EditText
             android:id="@+id/loginEmailTextField"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="227dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
             android:layout_marginTop="60dp"
             android:background="@drawable/edit_text_background"
             android:ems="10"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:fontFamily="serif"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -38,11 +40,13 @@
         <EditText
             android:id="@+id/loginPasswordTextField"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="227dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_text_background"
             android:ems="10"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:fontFamily="serif"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -56,71 +60,80 @@
         <Button
             android:id="@+id/mainLoginButton"
             style="@style/mainInterfaceButton"
-            android:layout_width="103dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="244dp"
-            android:fontFamily="@font/averia_libre_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginRight="90dp"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/login"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginPasswordTextField" />
 
         <TextView
             android:id="@+id/labelNewUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="cursive"
-            android:text="@string/new_user"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="#F7F2FA"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintHorizontal_bias=".5"
+            android:text="@string/new_user"
+            android:textColor="#505050"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/mainPageRegButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainLoginButton"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/loginPageUserReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="4dp"
+            android:padding="10dp"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/user"
             android:textSize="16dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/mainPageRegButton"
+            app:layout_constraintTop_toBottomOf="@+id/mainPageRegButton" />
 
         <Button
             android:id="@+id/loginPageDocReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="44dp"
-            android:layout_marginBottom="40dp"
-            android:fontFamily="@font/averia_libre_light"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:text="@string/doctor"
+            android:fontFamily="sans-serif-medium"
             android:textSize="16dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/mainPageRegButton"
+            app:layout_constraintTop_toBottomOf="@+id/mainPageRegButton" />
 
         <Button
             android:id="@+id/mainPageRegButton"
             style="@style/mainInterfaceButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="380dp"
-            android:fontFamily="@font/averia_libre_light"
+            android:layout_marginBottom="164dp"
+            android:fontFamily="sans-serif-medium"
             android:text="Register"
-            android:textSize="18dp"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView

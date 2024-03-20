@@ -199,24 +199,47 @@ public class CreateAppointment extends Fragment {
         return view;
     }
 
+//    private void validateTime(){
+//        long timestamp;
+//        try {
+//            Date dateObj;
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//            dateObj = dateFormat.parse(dateTimeStr);
+//            assert dateObj != null;
+//            timestamp = dateObj.getTime();
+//            // code for checking timestamp value of existing appointments with selectedDocName;
+//            DatabaseReference apptRef = FirebaseDatabase.getInstance().getReference("Appointments");
+//            Query query = apptRef.orderByChild("doctorName").equalTo(selectedDocName);
+//            query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                        Appointment appointment = dataSnapshot.getValue(Appointment.class);
+//                        if(timestamp >= appointment.getDateTime() && timestamp < (appointment.getDateTime()+1800000)){
+//                            Toast.makeText(getActivity(), "Time slot is booked for "+appointment.getDoctorName(), Toast.LENGTH_SHORT).show();
+//                            validated = false;
+//                            break;
+//                        }
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     private boolean validateAll(){
         validated = true;
-        if(doctorAuthId==null && selectedDocName==null && userAuthId==null && dateTimeStr==null && userName==null){
+        if(doctorAuthId==null || selectedDocClinicPhone==null || selectedDocSpecial==null || selectedDocName==null || userAuthId==null || dateTimeStr==null || userName==null){
             return false;
         }
-        long timestamp;
-        try {
-            Date dateObj;
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            dateObj = dateFormat.parse(dateTimeStr);
-            assert dateObj != null;
-            timestamp = dateObj.getTime();
-            // code for checking timestamp value of existing appointments with selectedDocName;
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.d("validated value", validated + " ");
         return validated;
     }
 

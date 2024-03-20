@@ -202,91 +202,89 @@ public class HomePageFrag extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Appointment appointment = dataSnapshot.getValue(Appointment.class);
-
                     if(appointment!=null && !appointment.isPassed()){
                         appointments.add(appointment);
                         Log.d("appointment", appointment.getDoctorName());
-                    }else{
+                    }else if(appointment!=null && appointment.isPassed()){
                         passedAppointments.add(appointment);
                         Log.d("appointment query", "appointment not accessed");
                     }
                 }
-                if(appointments.isEmpty()){
-                    Log.d("appointment local list", "appointments list is empty");
-                }else{
-                    sortAppointmentsByTimestamp(appointments);
-                    if(!appointments.isEmpty()){
-                        upcomingAppt = appointments.get(0);
-                        upcomingApptDocName = upcomingAppt.getDoctorName();
-                        upcomingApptDocAddr = upcomingAppt.getVenue();
-                        upcomingApptDocSpecial = upcomingAppt.getDoctorSpecialization();
 
-                        upcomingDocName.setText(upcomingApptDocName);
-                        upcomingDocSpecial.setText(upcomingApptDocSpecial);
-                        upcomingDocAddr.setText(upcomingApptDocAddr);
-                        long apptDateTime = upcomingAppt.getDateTime();
-                        Date apptDate = new Date(apptDateTime);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(apptDate);
-                        int year = calendar.get(Calendar.YEAR);
-                        int month = calendar.get(Calendar.MONTH) + 1;
-                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        String monthStr = "MON";
-                        if(month == 1)
-                            monthStr = "JAN";
-                        if(month == 2)
-                            monthStr = "FEB";
-                        if(month == 3)
-                            monthStr = "MAR";
-                        if(month == 4)
-                            monthStr = "APR";
-                        if(month == 5)
-                            monthStr = "MAY";
-                        if(month == 6)
-                            monthStr = "JUN";
-                        if(month == 7)
-                            monthStr = "JUL";
-                        if(month == 8)
-                            monthStr = "AUG";
-                        if(month == 9)
-                            monthStr = "SEP";
-                        if(month == 10)
-                            monthStr = "OCT";
-                        if(month == 11)
-                            monthStr = "NOV";
-                        if(month == 12)
-                            monthStr = "DEC";
-                        String date = dayOfMonth + " " + monthStr;
-                        int hour2 = calendar.get(Calendar.HOUR_OF_DAY);
-                        String hourStr = String.format("%02d", hour2);
-                        int minute = calendar.get(Calendar.MINUTE);
-                        String minuteStr = String.format("%02d", minute);
-                        int second = calendar.get(Calendar.SECOND);
-                        String time = hourStr + ":" + minuteStr;
-                        String dateTime = date + " " + time;
-                        upcomingDateTime.setText(dateTime);
-                        callBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent callUser = new Intent(Intent.ACTION_DIAL);
-                                callUser.setData(Uri.parse("tel:" + upcomingAppt.getUserPhone()));
-                                view.getContext().startActivity(callUser);
-                            }
-                        });
-                        Log.d("upcoming appt", upcomingApptDocName);
-                    }else{
-                        Log.d("upcoming appt", "appointment list is empty outside");
-                    }
-                    if(passedAppointments.isEmpty()){
-                        Log.d("passedAppointments", "no previous appointments");
-                    }else{
-                        sortAppointmentsByTimestamp(passedAppointments);
-                    }
-                    combinedAppointments.addAll(appointments);
-                    combinedAppointments.addAll(passedAppointments);
-                    combinedApptList.setAppointments(combinedAppointments);
+                if(!appointments.isEmpty()){
+                    sortAppointmentsByTimestamp(appointments);
+                    upcomingAppt = appointments.get(0);
+                    upcomingApptDocName = upcomingAppt.getDoctorName();
+                    upcomingApptDocAddr = upcomingAppt.getVenue();
+                    upcomingApptDocSpecial = upcomingAppt.getDoctorSpecialization();
+
+                    upcomingDocName.setText(upcomingApptDocName);
+                    upcomingDocSpecial.setText(upcomingApptDocSpecial);
+                    upcomingDocAddr.setText(upcomingApptDocAddr);
+                    long apptDateTime = upcomingAppt.getDateTime();
+                    Date apptDate = new Date(apptDateTime);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(apptDate);
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    String monthStr = "MON";
+                    if(month == 1)
+                        monthStr = "JAN";
+                    if(month == 2)
+                        monthStr = "FEB";
+                    if(month == 3)
+                        monthStr = "MAR";
+                    if(month == 4)
+                        monthStr = "APR";
+                    if(month == 5)
+                        monthStr = "MAY";
+                    if(month == 6)
+                        monthStr = "JUN";
+                    if(month == 7)
+                        monthStr = "JUL";
+                    if(month == 8)
+                        monthStr = "AUG";
+                    if(month == 9)
+                        monthStr = "SEP";
+                    if(month == 10)
+                        monthStr = "OCT";
+                    if(month == 11)
+                        monthStr = "NOV";
+                    if(month == 12)
+                        monthStr = "DEC";
+                    String date = dayOfMonth + " " + monthStr;
+                    int hour2 = calendar.get(Calendar.HOUR_OF_DAY);
+                    String hourStr = String.format("%02d", hour2);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    String minuteStr = String.format("%02d", minute);
+                    int second = calendar.get(Calendar.SECOND);
+                    String time = hourStr + ":" + minuteStr;
+                    String dateTime = date + " " + time;
+                    upcomingDateTime.setText(dateTime);
+                    callBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callUser = new Intent(Intent.ACTION_DIAL);
+                            callUser.setData(Uri.parse("tel:" + upcomingAppt.getDoctorClinicPhone()));
+                            view.getContext().startActivity(callUser);
+                        }
+                    });
+                    Log.d("upcoming appt", upcomingApptDocName);
+                }else{
+                    Log.d("upcoming appt", "appointment list is empty outside");
                 }
+                if(passedAppointments.isEmpty()){
+                    Log.d("passedAppointments", "no previous appointments");
+                }else{
+                    sortAppointmentsByTimestamp(passedAppointments);
+                }
+                combinedAppointments.addAll(appointments);
+                combinedAppointments.addAll(passedAppointments);
+                Log.d("combinedAppointments", combinedAppointments.get(0).getDoctorName());
+                combinedApptList.setAppointments(combinedAppointments);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -84,19 +84,4 @@ public class AppointmentList extends Fragment {
 
         return view;
     }
-    public void sortAppointmentsByTimestamp(List<Appointment> appointments) {
-        // Create a custom comparator to compare appointments by timestamp
-        Comparator<Appointment> comparator = new Comparator<Appointment>() {
-            @Override
-            public int compare(Appointment appointment1, Appointment appointment2) {
-                long timestamp1 = appointment1.getDateTime();
-                long timestamp2 = appointment2.getDateTime();
-                // Compare timestamps
-                return Long.compare(timestamp1, timestamp2);
-            }
-        };
-
-        // Sort the list of appointments using the custom comparator
-        appointments.sort(comparator);
-    }
 }
